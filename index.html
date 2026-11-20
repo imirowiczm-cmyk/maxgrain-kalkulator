@@ -294,7 +294,8 @@ function calc(){
  const w1=num($('w1')),w2=num($('w2')),rate=num($('rate')),m=num($('m')),vat=num($('vat'));
  const tp=Math.max(0,+(w1-w2).toFixed(2));
  const perT=tp*rate,net=perT*m,vatV=net*vat/100,gross=net+vatV;
- const m2=w1>w2&&w2<100?m*(100-w1)/(100-w2):m,loss=m-m2;
+ const KG_PER_TP=12.43; // ubytek wg tabeli Max Grain: 12,43 kg na 1 t% z każdej tony
+ const loss=Math.min(m,m*tp*KG_PER_TP/1000),m2=m-loss;
  $('perT').textContent=zl0(perT);
  $('eq').textContent=`${zl0(rate)} × ${p(tp)} = ${zl0(perT)} / t mokrego ziarna`;
  $('rateTxt').textContent=zl0(rate);
@@ -322,7 +323,7 @@ addEventListener('scroll',()=>hdr.classList.toggle('fixed',scrollY>40),{passive:
 try{const s=JSON.parse(localStorage.getItem('mg-dry')||'null');if(s){$('w1').value=$('w1r').value=s.w1;$('m').value=$('mr').value=s.m;$('w2').value=s.w2;$('rate').value=s.rate;$('vat').value=s.vat}}catch(e){}
 const mb=$('mbar'),obs=new IntersectionObserver(es=>es.forEach(en=>mb.classList.toggle('show',!en.isIntersecting&&en.boundingClientRect.top>0)));
 obs.observe(document.querySelector('.out'));
-const MSG='<b>Pamiętaj:</b> odbierasz suchą kukurydzę (14%) pomniejszoną o naturalną osuszkę, czyli ubytek wagi. Liczymy go wzorem <em>masa × (W₁ − W₂) / (100 − W₂)</em> – przy 30% → 14% to ok. <em>18,6% masy</em>.';
+const MSG='<b>Pamiętaj:</b> odbierasz suchą kukurydzę (14%) pomniejszoną o osuszkę i ubytek technologiczny. Liczymy go jako <em>12,43 kg z tony na każdy tonoprocent</em> – przy 30% → 14% (16 t%) to ok. <em>199 kg z tony</em>.';
 const one=`<span><i class="exlamation_mark">!</i>${MSG}</span>`;
 $('track').innerHTML=one+one;
 calc();
