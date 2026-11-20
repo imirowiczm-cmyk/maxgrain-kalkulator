@@ -240,8 +240,6 @@ footer p{margin:0}
      <tr><td>VAT <span id="vatL">8%</span></td><td id="vatV">–</td></tr>
      <tr class="sum"><td>Razem brutto</td><td id="gross">–</td></tr>
      <tr><td>Masa po suszeniu</td><td id="m2">–</td></tr>
-     <tr><td>Naturalna osuszka (ubytek)</td><td id="loss">–</td></tr>
-     <tr><td>Koszt na 1 t suchego ziarna</td><td id="perDry">–</td></tr>
     </tbody>
    </table>
    <p class="note">Wynik orientacyjny. Rozliczenie następuje na podstawie pomiaru wilgotności w laboratorium Max Grain przy przyjęciu.</p>
@@ -302,8 +300,6 @@ function calc(){
  $('rateTxt').textContent=zl0(rate);
  $('net').textContent=zl(net);$('vatL').textContent=p(vat)+'%';$('vatV').textContent=zl(vatV);$('gross').textContent=zl(gross);
  $('m2').textContent=tn(m2);
- $('loss').textContent=`${tn(loss)} (${p(m?loss/m*100:0)}%)`;
- $('perDry').textContent=m2>0?zl(net/m2):'–';
  $('mbarV').textContent=zl(gross);
  const cap=v=>Math.min(100,Math.max(0,v/40*100)),lo=cap(Math.min(w1,w2)),hi=cap(w1);
  $('dry').style.width=lo+'%';$('tp').style.left=cap(w2)+'%';$('tp').style.width=Math.max(0,hi-cap(w2))+'%';
