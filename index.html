@@ -97,7 +97,7 @@ input[type=range]{flex:1;height:44px;accent-color:var(--y);cursor:pointer}
 .out{background:var(--g);color:#fff;padding:clamp(20px,3vw,34px);display:flex;flex-direction:column;gap:18px}
 .lbl{font-size:14px;opacity:.8}
 .big{font-weight:700;font-size:clamp(46px,6.5vw,70px);line-height:1;color:var(--y);white-space:nowrap}
-.big small{font-size:.4em;color:#fff;margin-left:6px;font-weight:500}
+.big small{font-size:.32em;color:#fff;margin-left:6px;font-weight:500}
 .eq{display:inline-block;margin-top:10px;background:rgba(255,255,255,.08);border:1px solid rgba(250,180,16,.5);border-radius:6px;padding:6px 12px;font-weight:500;white-space:nowrap;font-size:17px}
 .bar{position:relative;height:34px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}
 .bar i{position:absolute;inset:0 auto 0 0;background:var(--g2)}
@@ -225,8 +225,8 @@ footer p{margin:0}
   <div class="out" aria-live="polite">
    <div>
     <div class="lbl">Koszt suszenia za 1 tonę mokrej kukurydzy</div>
-    <div class="big"><span id="perT">224 zł</span><small>/ tona</small></div>
-    <div class="eq" id="eq">14 zł × 16 = 224 zł / tona</div>
+    <div class="big"><span id="perT">224 zł</span><small>/ t mokrego ziarna</small></div>
+    <div class="eq" id="eq">14 zł × 16 = 224 zł / t mokrego ziarna</div>
    </div>
    <div>
     <div class="bar" aria-hidden="true"><i id="dry"></i><b id="tp"></b></div>
@@ -258,7 +258,7 @@ footer p{margin:0}
  <div class="sg">
   <div class="st"><div class="n">1</div><h3>Pomiar wilgotności</h3><p>Przywozisz kukurydzę o wilgotności np. <strong>30%</strong>.</p></div>
   <div class="st"><div class="n">2</div><h3>Zbijanie wilgotności</h3><p>Suszymy ją do standardowych 14%: <strong>30% − 14% = 16%</strong> – to są t% do zapłaty.</p></div>
-  <div class="st"><div class="n">3</div><h3>Obliczenie kosztu</h3><p>Mnożymy usunięte procenty przez stawkę: <strong>14 zł × 16 = 224 zł / tona</strong>.</p></div>
+  <div class="st"><div class="n">3</div><h3>Obliczenie kosztu</h3><p>Mnożymy usunięte procenty przez stawkę: <strong>14 zł × 16 = 224 zł</strong> za tonę mokrego ziarna.</p></div>
  </div>
 </section>
 
@@ -296,7 +296,7 @@ function calc(){
  const perT=tp*rate,net=perT*m,vatV=net*vat/100,gross=net+vatV;
  const m2=w1>w2&&w2<100?m*(100-w1)/(100-w2):m,loss=m-m2;
  $('perT').textContent=zl0(perT);
- $('eq').textContent=`${zl0(rate)} × ${p(tp)} = ${zl0(perT)} / tona`;
+ $('eq').textContent=`${zl0(rate)} × ${p(tp)} = ${zl0(perT)} / t mokrego ziarna`;
  $('rateTxt').textContent=zl0(rate);
  $('net').textContent=zl(net);$('vatL').textContent=p(vat)+'%';$('vatV').textContent=zl(vatV);$('gross').textContent=zl(gross);
  $('m2').textContent=tn(m2);
@@ -307,7 +307,7 @@ function calc(){
  $('lgTp').textContent=`usuwane ${p(tp)} t% – do zapłaty`;
  $('warn').classList.toggle('show',w1>0&&w1<=w2);
  document.querySelectorAll('#presets button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===w1));
- last=`Suszenie kukurydzy – Max Grain\nWilgotność: ${p(w1)}% → ${p(w2)}% (${p(tp)} t%)\nStawka: ${zl0(rate)}/t% → ${zl0(perT)}/t\nMasa mokra: ${tn(m)} · po suszeniu: ${tn(m2)}\nKoszt netto: ${zl(net)} · brutto (VAT ${p(vat)}%): ${zl(gross)}`;
+ last=`Suszenie kukurydzy – Max Grain\nWilgotność: ${p(w1)}% → ${p(w2)}% (${p(tp)} t%)\nStawka: ${zl0(rate)}/t% → ${zl0(perT)}/t mokrego ziarna\nMasa mokra: ${tn(m)} · po suszeniu: ${tn(m2)}\nKoszt netto: ${zl(net)} · brutto (VAT ${p(vat)}%): ${zl(gross)}`;
  try{localStorage.setItem('mg-dry',JSON.stringify({w1,w2,rate,m,vat}))}catch(e){}
 }
 const link=(r,i)=>{r.addEventListener('input',()=>{i.value=r.value;calc()});i.addEventListener('input',()=>{r.value=num(i);calc()})};
