@@ -58,8 +58,8 @@ header.fixed .logo img{height:40px}
 
 /* marquee – pasek morski jak na stronie */
 .marquee{background:var(--g2);color:#fff;height:56px;overflow:hidden;display:flex;align-items:center}
-.track{display:flex;gap:48px;white-space:nowrap;animation:marquee 40s linear infinite;font-weight:500}
-.track{width:max-content}.track span{flex:none;display:inline-flex;align-items:center;gap:12px}
+.track{display:flex;gap:48px;white-space:nowrap;animation:marquee 18s linear infinite;font-weight:500}
+.track{width:max-content}.track{gap:0}.track span{padding-right:64px;flex:none;display:inline-flex;align-items:center;gap:12px}
 .exlamation_mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--y);color:var(--g2);font-weight:700}
 .marquee em{font-style:normal;color:var(--y)}
 @keyframes marquee{to{transform:translateX(-50%)}}
@@ -262,7 +262,6 @@ footer p{margin:0}
   <div class="st"><div class="n">2</div><h3>Zbijanie wilgotności</h3><p>Suszymy ją do standardowych 14%: <strong>30% − 14% = 16%</strong> – to są t% do zapłaty.</p></div>
   <div class="st"><div class="n">3</div><h3>Obliczenie kosztu</h3><p>Mnożymy usunięte procenty przez stawkę: <strong>14 zł × 16 = 224 zł / tona</strong>.</p></div>
  </div>
- <div class="loss"><b>Pamiętaj:</b> odbierasz suchą kukurydzę (14%) pomniejszoną o naturalną osuszkę, czyli ubytek wagi. Liczymy go wzorem <b>masa × (W₁ − W₂) / (100 − W₂)</b> – przy 30% → 14% to ok. 18,6% masy.</div>
 </section>
 
 <section class="contact" id="kontakt">
@@ -312,9 +311,6 @@ function calc(){
  $('lgTp').textContent=`usuwane ${p(tp)} t% – do zapłaty`;
  $('warn').classList.toggle('show',w1>0&&w1<=w2);
  document.querySelectorAll('#presets button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===w1));
- const msg=[`Suszenie kukurydzy <em>${zl0(rate)}</em> za tonoprocent`,`Wilgotność ${p(w1)}% → ${p(w2)}% = <em>${p(tp)} t%</em>`,`Koszt <em>${zl0(perT)}</em> za tonę`,`Zadzwoń: <em>500 504 400</em>`];
- const one=msg.map(s=>`<span><i class="exlamation_mark">!</i>${s}</span>`).join('');
- $('track').innerHTML=one+one;
  last=`Suszenie kukurydzy – Max Grain\nWilgotność: ${p(w1)}% → ${p(w2)}% (${p(tp)} t%)\nStawka: ${zl0(rate)}/t% → ${zl0(perT)}/t\nMasa mokra: ${tn(m)} · po suszeniu: ${tn(m2)}\nKoszt netto: ${zl(net)} · brutto (VAT ${p(vat)}%): ${zl(gross)}`;
  try{localStorage.setItem('mg-dry',JSON.stringify({w1,w2,rate,m,vat}))}catch(e){}
 }
@@ -330,6 +326,9 @@ addEventListener('scroll',()=>hdr.classList.toggle('fixed',scrollY>40),{passive:
 try{const s=JSON.parse(localStorage.getItem('mg-dry')||'null');if(s){$('w1').value=$('w1r').value=s.w1;$('m').value=$('mr').value=s.m;$('w2').value=s.w2;$('rate').value=s.rate;$('vat').value=s.vat}}catch(e){}
 const mb=$('mbar'),obs=new IntersectionObserver(es=>es.forEach(en=>mb.classList.toggle('show',!en.isIntersecting&&en.boundingClientRect.top>0)));
 obs.observe(document.querySelector('.out'));
+const MSG='<b>Pamiętaj:</b> odbierasz suchą kukurydzę (14%) pomniejszoną o naturalną osuszkę, czyli ubytek wagi. Liczymy go wzorem <em>masa × (W₁ − W₂) / (100 − W₂)</em> – przy 30% → 14% to ok. <em>18,6% masy</em>.';
+const one=`<span><i class="exlamation_mark">!</i>${MSG}</span>`;
+$('track').innerHTML=one+one;
 calc();
 }
 </script>
